@@ -13,7 +13,7 @@ This plugin will help you can display the most popular posts on your blog in the
 == Description ==
 
 Note: This is a public beta version, which contains basic product options. You are welcome to suggest new features and usability improvements.
-<a href="http://support.bestwebsoft.com/hc/en-us/requests/new">I would like to submit a new feature.</a>
+<a href="http://support.bestwebsoft.com/hc/en-us/requests/new">Submit a new feature</a>
 
 Popular Posts by BestWebSoft plugin allows you to display the most popular posts in the widget. This plugin doesn’t require any additional settings, though there are some available options that can be adjusted. All you need to do is activate the plugin and add Popular Posts Widget to the sidebar.
 
