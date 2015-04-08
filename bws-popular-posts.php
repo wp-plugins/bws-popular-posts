@@ -2,9 +2,9 @@
 /*
 Plugin Name: Popular Posts by BestWebSoft
 Plugin URI: http://bestwebsoft.com/products/
-Description: Plugin for display Popular Posts Widget.
+Description: This plugin will help you display the most popular blog posts in the widget.
 Author: BestWebSoft
-Version: 0.1
+Version: 0.1.1
 Author URI: http://bestwebsoft.com/
 License: GPLv3 or later
 */
@@ -28,67 +28,28 @@ License: GPLv3 or later
 /* Add option page in admin menu */
 if ( ! function_exists( 'pplrpsts_admin_menu' ) ) {
 	function pplrpsts_admin_menu() {
-		global $bstwbsftwppdtplgns_options, $bstwbsftwppdtplgns_added_menu;
-		$bws_menu_info = get_plugin_data( plugin_dir_path( __FILE__ ) . "bws_menu/bws_menu.php" );
-		$bws_menu_version = $bws_menu_info["Version"];
-		$base = plugin_basename( __FILE__ );
-
-		if ( ! isset( $bstwbsftwppdtplgns_options ) ) {
-			if ( is_multisite() ) {
-				if ( ! get_site_option( 'bstwbsftwppdtplgns_options' ) )
-					add_site_option( 'bstwbsftwppdtplgns_options', array(), '', 'yes' );
-				$bstwbsftwppdtplgns_options = get_site_option( 'bstwbsftwppdtplgns_options' );
-			} else {
-				if ( ! get_option( 'bstwbsftwppdtplgns_options' ) )
-					add_option( 'bstwbsftwppdtplgns_options', array(), '', 'yes' );
-				$bstwbsftwppdtplgns_options = get_option( 'bstwbsftwppdtplgns_options' );
-			}
-		}
-
-		if ( isset( $bstwbsftwppdtplgns_options['bws_menu_version'] ) ) {
-			$bstwbsftwppdtplgns_options['bws_menu']['version'][ $base ] = $bws_menu_version;
-			unset( $bstwbsftwppdtplgns_options['bws_menu_version'] );
-			if ( is_multisite() )
-				update_site_option( 'bstwbsftwppdtplgns_options', $bstwbsftwppdtplgns_options, '', 'yes' );
-			else
-				update_option( 'bstwbsftwppdtplgns_options', $bstwbsftwppdtplgns_options, '', 'yes' );
-			require_once( dirname( __FILE__ ) . '/bws_menu/bws_menu.php' );
-		} else if ( ! isset( $bstwbsftwppdtplgns_options['bws_menu']['version'][ $base ] ) || $bstwbsftwppdtplgns_options['bws_menu']['version'][ $base ] < $bws_menu_version ) {
-			$bstwbsftwppdtplgns_options['bws_menu']['version'][ $base ] = $bws_menu_version;
-			if ( is_multisite() )
-				update_site_option( 'bstwbsftwppdtplgns_options', $bstwbsftwppdtplgns_options, '', 'yes' );
-			else
-				update_option( 'bstwbsftwppdtplgns_options', $bstwbsftwppdtplgns_options, '', 'yes' );
-			require_once( dirname( __FILE__ ) . '/bws_menu/bws_menu.php' );
-		} else if ( ! isset( $bstwbsftwppdtplgns_added_menu ) ) {
-			$plugin_with_newer_menu = $base;
-			foreach ( $bstwbsftwppdtplgns_options['bws_menu']['version'] as $key => $value ) {
-				if ( $bws_menu_version < $value && is_plugin_active( $base ) ) {
-					$plugin_with_newer_menu = $key;
-				}
-			}
-			$plugin_with_newer_menu = explode( '/', $plugin_with_newer_menu );
-			$wp_content_dir = defined( 'WP_CONTENT_DIR' ) ? basename( WP_CONTENT_DIR ) : 'wp-content';
-			if ( file_exists( ABSPATH . $wp_content_dir . '/plugins/' . $plugin_with_newer_menu[0] . '/bws_menu/bws_menu.php' ) )
-				require_once( ABSPATH . $wp_content_dir . '/plugins/' . $plugin_with_newer_menu[0] . '/bws_menu/bws_menu.php' );
-			else
-				require_once( dirname( __FILE__ ) . '/bws_menu/bws_menu.php' );	
-			$bstwbsftwppdtplgns_added_menu = true;			
-		}
-
-		add_menu_page( 'BWS Plugins', 'BWS Plugins', 'manage_options', 'bws_plugins', 'bws_add_menu_render', plugins_url( "images/px.png", __FILE__ ), 1001 );
-		add_submenu_page( 'bws_plugins', __( 'Popular Posts Settings', 'popular_posts' ), __( 'Popular Posts', 'popular_posts' ), 'manage_options', "popular-posts.php", 'pplrpsts_settings_page' );
+		bws_add_general_menu( plugin_basename( __FILE__ ) );
+		add_submenu_page( 'bws_plugins', 'Popular Posts ' . __( 'Settings', 'popular_posts' ), 'Popular Posts', 'manage_options', "popular-posts.php", 'pplrpsts_settings_page' );
 	}
 }
 
 /* Plugin initialization - add internationalization and size for image*/
 if ( ! function_exists ( 'pplrpsts_init' ) ) {
-	function pplrpsts_init() {	
+	function pplrpsts_init() {
+		global $pplrpsts_plugin_info;	
 		/* Internationalization, first(!) */
 		load_plugin_textdomain( 'popular_posts', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' ); 
 
+		require_once( dirname( __FILE__ ) . '/bws_menu/bws_functions.php' );
+		
+		if ( empty( $pplrpsts_plugin_info ) ) {
+			if ( ! function_exists( 'get_plugin_data' ) )
+				require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+			$pplrpsts_plugin_info = get_plugin_data( __FILE__ );
+		}
+
 		/* Function check if plugin is compatible with current WP version  */
-		pplrpsts_version_check();
+		bws_wp_version_check( plugin_basename( __FILE__ ), $pplrpsts_plugin_info, "3.1" );
 
 		if ( ! session_id() )
 			@session_start();
@@ -101,34 +62,13 @@ if ( ! function_exists ( 'pplrpsts_init' ) ) {
 if ( ! function_exists ( 'pplrpsts_admin_init' ) ) {
 	function pplrpsts_admin_init() {
 		global $bws_plugin_info, $pplrpsts_plugin_info, $pagenow;
-		/* Add variable for bws_menu */
-		$pplrpsts_plugin_info = get_plugin_data( __FILE__ );
-
+		
 		if ( ! isset( $bws_plugin_info ) || empty( $bws_plugin_info ) )
 			$bws_plugin_info = array( 'id' => '177', 'version' => $pplrpsts_plugin_info["Version"] );
 
 		/* Call register settings function */
 		if ( 'widgets.php' == $pagenow || ( isset( $_GET['page'] ) && "popular-posts.php" == $_GET['page'] ) )
 			pplrpsts_set_options();
-	}
-}
-
-/* Function check if plugin is compatible with current WP version  */
-if ( ! function_exists ( 'pplrpsts_version_check' ) ) {
-	function pplrpsts_version_check() {
-		global $wp_version, $pplrpsts_plugin_info;
-		$require_wp		=	"3.1"; /* Wordpress at least requires version */
-		$plugin			=	plugin_basename( __FILE__ );
-	 	if ( version_compare( $wp_version, $require_wp, "<" ) ) {
-	 		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-			if ( is_plugin_active( $plugin ) ) {
-				deactivate_plugins( $plugin );
-				if ( ! $pplrpsts_plugin_info )
-					$pplrpsts_plugin_info = get_plugin_data( __FILE__ );
-				$admin_url = ( function_exists( 'get_admin_url' ) ) ? get_admin_url( null, 'plugins.php' ) : esc_url( '/wp-admin/plugins.php' );
-				wp_die( "<strong>" . $pplrpsts_plugin_info['Name'] . " </strong> " . __( 'requires', 'popular_posts' ) . " <strong>WordPress " . $require_wp . "</strong> " . __( 'or higher, that is why it has been deactivated! Please upgrade WordPress and try again.', 'popular_posts') . "<br /><br />" . __( 'Back to the WordPress', 'popular_posts') . " <a href='" . $admin_url . "'>" . __( 'Plugins page', 'popular_posts') . "</a>." );
-			}
-		}
 	}
 }
 
@@ -148,7 +88,7 @@ if ( ! function_exists( 'pplrpsts_set_options' ) ) {
 		);
 
 		if ( ! get_option( 'pplrpsts_options' ) )
-			add_option( 'pplrpsts_options', $pplrpsts_options_defaults, '', 'yes' );
+			add_option( 'pplrpsts_options', $pplrpsts_options_defaults );
 
 		$pplrpsts_options = get_option( 'pplrpsts_options' );
 
@@ -164,7 +104,7 @@ if ( ! function_exists( 'pplrpsts_set_options' ) ) {
 /* Function for display popular_posts settings page in the admin area */
 if ( ! function_exists( 'pplrpsts_settings_page' ) ) {
 	function pplrpsts_settings_page() {
-		global $pplrpsts_options;
+		global $pplrpsts_options, $pplrpsts_plugin_info;
 		$error = $message = "";
 
 		/* Save data for settings page */
@@ -182,7 +122,7 @@ if ( ! function_exists( 'pplrpsts_settings_page' ) ) {
 
 			if ( "" == $error ) {
 				/* Update options in the database */
-				update_option( 'pplrpsts_options', $pplrpsts_options, '', 'yes' );
+				update_option( 'pplrpsts_options', $pplrpsts_options );
 				$message = __( "Settings saved.", 'popular_posts' );
 			}
 		} /* Display form on the setting page */ ?>
@@ -243,16 +183,7 @@ if ( ! function_exists( 'pplrpsts_settings_page' ) ) {
 				</p>
 				<?php wp_nonce_field( plugin_basename(__FILE__), 'pplrpsts_nonce_name' ); ?>
 			</form>
-			<div class="bws-plugin-reviews">
-				<div class="bws-plugin-reviews-rate">
-					<?php _e( 'If you enjoy our plugin, please give it 5 stars on WordPress', 'popular_posts' ); ?>:
-					<a href="http://wordpress.org/support/view/plugin-reviews/bws-popular-posts" target="_blank" title="Popular Posts reviews"><?php _e( 'Rate the plugin', 'popular_posts' ); ?></a>
-				</div>
-				<div class="bws-plugin-reviews-support">
-					<?php _e( 'If there is something wrong about it, please contact us', 'popular_posts' ); ?>:
-					<a href="http://support.bestwebsoft.com">http://support.bestwebsoft.com</a>
-				</div>
-			</div>
+			<?php bws_plugin_reviews_block( $pplrpsts_plugin_info["Name"], 'bws-popular-posts' ); ?>
 		</div>
 	<?php }
 }
@@ -302,6 +233,15 @@ class PopularPosts extends WP_Widget {
 					'posts_per_page'		=> $count,
 					'ignore_sticky_posts' 	=> 1
 				);
+
+			if ( ! function_exists ( 'is_plugin_active' ) ) 
+				include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+
+			if ( is_plugin_active( 'custom-fields-search-pro/custom-fields-search-pro.php' ) || is_plugin_active( 'custom-fields-search/custom-fields-search.php' ) ) {
+				$cstmfldssrch_is_active = true;
+				remove_filter( 'posts_join', 'cstmfldssrch_join' );
+				remove_filter( 'posts_where', 'cstmfldssrch_request' );
+			}
 			$the_query = new WP_Query( $query_args );
 			/* The Loop */
 			if ( $the_query->have_posts() ) { 
@@ -344,7 +284,11 @@ class PopularPosts extends WP_Widget {
 				/* no posts found */
 			}
 			/* Restore original Post Data */
-			wp_reset_postdata(); ?>
+			wp_reset_postdata(); 
+			if ( isset( $cstmfldssrch_is_active ) ) {
+				add_filter( 'posts_join', 'cstmfldssrch_join' );
+				add_filter( 'posts_where', 'cstmfldssrch_request' );
+			} ?>
 		</div><!-- .pplrpsts-popular-posts -->
 		<?php echo $args['after_widget'];
 	}
@@ -444,14 +388,16 @@ if ( ! function_exists ( 'pplrpsts_wp_head' ) ) {
  */
 if ( ! function_exists( 'pplrpsts_plugin_action_links' ) ) {
 	function pplrpsts_plugin_action_links( $links, $file ) {
-		/* Static so we don't call plugin_basename on every plugin row. */
-		static $this_plugin;
-		if ( ! $this_plugin )
-			$this_plugin = plugin_basename(__FILE__);
+		if ( ! is_network_admin() ) {
+			/* Static so we don't call plugin_basename on every plugin row. */
+			static $this_plugin;
+			if ( ! $this_plugin )
+				$this_plugin = plugin_basename(__FILE__);
 
-		if ( $file == $this_plugin ) {
-			$settings_link = '<a href="admin.php?page=popular-posts.php">' . __( 'Settings', 'popular_posts' ) . '</a>';
-			array_unshift( $links, $settings_link );
+			if ( $file == $this_plugin ) {
+				$settings_link = '<a href="admin.php?page=popular-posts.php">' . __( 'Settings', 'popular_posts' ) . '</a>';
+				array_unshift( $links, $settings_link );
+			}
 		}
 		return $links;
 	}
@@ -462,7 +408,8 @@ if ( ! function_exists ( 'pplrpsts_register_plugin_links' ) ) {
 	function pplrpsts_register_plugin_links( $links, $file ) {
 		$base = plugin_basename(__FILE__);
 		if ( $file == $base ) {
-			$links[] = '<a href="admin.php?page=popular-posts.php">' . __( 'Settings','popular_posts' ) . '</a>';
+			if ( ! is_network_admin() )
+				$links[] = '<a href="admin.php?page=popular-posts.php">' . __( 'Settings','popular_posts' ) . '</a>';
 			$links[] = '<a href="http://wordpress.org/plugins/bws-popular-posts/faq/" target="_blank">' . __( 'FAQ','popular_posts' ) . '</a>';
 			$links[] = '<a href="http://support.bestwebsoft.com">' . __( 'Support','popular_posts' ) . '</a>';
 		}

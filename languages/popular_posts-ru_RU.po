@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: popular_posts\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-29 17:19+0300\n"
-"PO-Revision-Date: 2015-01-29 17:20+0300\n"
+"POT-Creation-Date: 2015-04-07 17:20+0300\n"
+"PO-Revision-Date: 2015-04-07 17:20+0300\n"
 "Last-Translator: bestwebsoft.com <plugins@bestwebsoft.com>\n"
 "Language-Team: bestwebsoft.com <plugin@bestwebsoft.com>\n"
 "Language: ru_RU\n"
@@ -16,134 +16,132 @@ msgstr ""
 "X-Generator: Poedit 1.5.7\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: bws-popular-posts.php:80
-#: bws-popular-posts.php:193
-msgid "Popular Posts Settings"
-msgstr "Настройка Popular Posts"
-
-#: bws-popular-posts.php:80
-#: bws-popular-posts.php:143
-msgid "Popular Posts"
-msgstr "Popular Posts"
-
-#: bws-popular-posts.php:129
-msgid "requires"
-msgstr "требует"
-
-#: bws-popular-posts.php:129
-msgid "or higher, that is why it has been deactivated! Please upgrade WordPress and try again."
-msgstr "или выше, поэтому плагин был деактивирован! Пожалуйста, обновите WordPress и попробуйте снова."
-
-#: bws-popular-posts.php:129
-msgid "Back to the WordPress"
-msgstr "Вернуться к WordPress"
-
-#: bws-popular-posts.php:129
-msgid "Plugins page"
-msgstr "Страница плагинов"
-
-#: bws-popular-posts.php:188
-msgid "Settings saved."
-msgstr "Настройки сохранены."
-
-#: bws-popular-posts.php:195
-#: bws-popular-posts.php:455
-#: bws-popular-posts.php:467
+#: bws-popular-posts.php:32
+#: bws-popular-posts.php:133
+#: bws-popular-posts.php:397
+#: bws-popular-posts.php:411
 msgid "Settings"
 msgstr "Настройки"
 
-#: bws-popular-posts.php:196
-#: bws-popular-posts.php:468
+#: bws-popular-posts.php:82
+msgid "Popular Posts"
+msgstr "Popular Posts"
+
+#: bws-popular-posts.php:126
+msgid "Settings saved."
+msgstr "Настройки сохранены."
+
+#: bws-popular-posts.php:131
+msgid "Popular Posts Settings"
+msgstr "Настройка Popular Posts"
+
+#: bws-popular-posts.php:134
+#: bws-popular-posts.php:412
 msgid "FAQ"
 msgstr "FAQ"
 
-#: bws-popular-posts.php:198
+#: bws-popular-posts.php:136
 msgid "Notice:"
 msgstr "Внимание:"
 
-#: bws-popular-posts.php:198
+#: bws-popular-posts.php:136
 msgid "The plugin's settings have been changed. In order to save them please don't forget to click the 'Save Changes' button."
 msgstr "Настройки плагина были изменены. Для того, чтобы сохранить их, пожалуйста, не забудьте нажать кнопку \"Сохранить\"."
 
-#: bws-popular-posts.php:202
+#: bws-popular-posts.php:140
 msgid "If you would like to display popular posts with a widget, you need to add the widget \"Popular Posts\" in the Widgets tab."
 msgstr "Если вы желаете показывать популярные записи при помощи виджета, добавьте виджет \"Популярные записи\" во вкладке Виджеты."
 
-#: bws-popular-posts.php:205
-#: bws-popular-posts.php:366
+#: bws-popular-posts.php:143
+#: bws-popular-posts.php:307
 msgid "Widget title"
 msgstr "Название виджета"
 
-#: bws-popular-posts.php:211
-#: bws-popular-posts.php:370
+#: bws-popular-posts.php:149
+#: bws-popular-posts.php:311
 msgid "Number of posts"
 msgstr "Количество постов"
 
-#: bws-popular-posts.php:217
-#: bws-popular-posts.php:374
+#: bws-popular-posts.php:155
+#: bws-popular-posts.php:315
 msgid "Excerpt length"
 msgstr "Длина цитаты"
 
-#: bws-popular-posts.php:223
-#: bws-popular-posts.php:378
+#: bws-popular-posts.php:161
+#: bws-popular-posts.php:319
 msgid "\"Read more\" text"
 msgstr "Текст для ссылки \"more\""
 
-#: bws-popular-posts.php:229
-#: bws-popular-posts.php:382
+#: bws-popular-posts.php:167
+#: bws-popular-posts.php:323
 msgid "Default image (full URL), if no featured image is available"
 msgstr "Изображение по умолчанию (полный URL), если у поста нет изображения"
 
-#: bws-popular-posts.php:235
-#: bws-popular-posts.php:386
+#: bws-popular-posts.php:173
+#: bws-popular-posts.php:327
 msgid "Order by number of"
 msgstr "Сортировать по количеству"
 
-#: bws-popular-posts.php:237
-#: bws-popular-posts.php:387
+#: bws-popular-posts.php:175
+#: bws-popular-posts.php:328
 msgid "comments"
 msgstr "комментариев"
 
-#: bws-popular-posts.php:238
-#: bws-popular-posts.php:388
+#: bws-popular-posts.php:176
+#: bws-popular-posts.php:329
 msgid "views"
 msgstr "просмотров"
 
-#: bws-popular-posts.php:244
+#: bws-popular-posts.php:182
 msgid "Save Changes"
 msgstr "Сохранить изменения"
 
-#: bws-popular-posts.php:250
-msgid "If you enjoy our plugin, please give it 5 stars on WordPress"
-msgstr "Если вам понравился плагин, мы будем благодарны, если вы поставите нам 5 звезд на WordPress"
-
-#: bws-popular-posts.php:251
-msgid "Rate the plugin"
-msgstr "Оценить плагин"
-
-#: bws-popular-posts.php:254
-msgid "If there is something wrong about it, please contact us"
-msgstr "Если у вас есть какие-то вопросы, обращайтесь"
-
-#: bws-popular-posts.php:269
+#: bws-popular-posts.php:198
 msgid "Popular Posts Widget"
 msgstr "Виджет Популярных записей"
 
-#: bws-popular-posts.php:270
+#: bws-popular-posts.php:199
 msgid "Widget for displaying Popular Posts by comments or views count."
 msgstr "Виджет для отображения Популярных записей по количеству комментариев или же количеству просмотров."
 
-#: bws-popular-posts.php:318
+#: bws-popular-posts.php:255
 msgid "Posted on"
 msgstr "Опубликовано"
 
-#: bws-popular-posts.php:320
+#: bws-popular-posts.php:257
 msgid "by"
 msgstr " "
 
-#: bws-popular-posts.php:469
+#: bws-popular-posts.php:413
 msgid "Support"
 msgstr "Тех.Поддержка"
+
+#~ msgid "requires"
+#~ msgstr "требует"
+
+#~ msgid ""
+#~ "or higher, that is why it has been deactivated! Please upgrade WordPress "
+#~ "and try again."
+#~ msgstr ""
+#~ "или выше, поэтому плагин был деактивирован! Пожалуйста, обновите "
+#~ "WordPress и попробуйте снова."
+
+#~ msgid "Back to the WordPress"
+#~ msgstr "Вернуться к WordPress"
+
+#~ msgid "Plugins page"
+#~ msgstr "Страница плагинов"
+
+#~ msgid "If you enjoy our plugin, please give it 5 stars on WordPress"
+#~ msgstr ""
+#~ "Если вам понравился плагин, мы будем благодарны, если вы поставите нам 5 "
+#~ "звезд на WordPress"
+
+#~ msgid "Rate the plugin"
+#~ msgstr "Оценить плагин"
+
+#~ msgid "If there is something wrong about it, please contact us"
+#~ msgstr "Если у вас есть какие-то вопросы, обращайтесь"
 
 #~ msgid "Posts number"
 #~ msgstr "Количество записей"

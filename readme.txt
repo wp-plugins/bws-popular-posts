@@ -3,12 +3,12 @@ Contributors: bestwebsoft
 Donate link: https://www.2checkout.com/checkout/purchase?sid=1430388&quantity=1&product_id=94
 Tags: popular, widget display, widget, popular post, popular posts plugin, populer, popular posts, most visited posts, poular, pppular, popluar, populare, excerpt, potss, popular posts widget, best website posts, post popularity, popular posts statictics, blog posts, post popularity rating
 Requires at least: 3.1
-Tested up to: 4.1
-Stable tag: 0.1
+Tested up to: 4.1.1
+Stable tag: 0.1.1
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-This plugin will help you can display the most popular posts on your blog in the widget.
+This plugin will help you display the most popular blog posts in the widget.
 
 == Description ==
 
@@ -17,7 +17,10 @@ Note: This is a public beta version, which contains basic product options. You a
 
 Popular Posts by BestWebSoft plugin allows you to display the most popular posts in the widget. This plugin doesn’t require any additional settings, though there are some available options that can be adjusted. All you need to do is activate the plugin and add Popular Posts Widget to the sidebar.
 
+http://www.youtube.com/watch?v=eakI5x5MUZ0
+
 <a href="http://wordpress.org/plugins/bws-popular-posts/faq/" target="_blank">FAQ</a>
+
 <a href="http://support.bestwebsoft.com" target="_blank">Support</a>
 
 = Features =
@@ -55,6 +58,8 @@ We can fix some things for free for the users who provide translation of our plu
 2. Activate the plugin using the 'Plugins' menu in your WordPress admin panel.
 3. Go to Appearance -> Widgets administration page and look for the widget named Popular Posts Widget
 
+<a href="https://docs.google.com/document/d/1xv8Y3Tvb6afKVakJrABQjGmIJyWPaLiAqjmP0bpApd0/edit" target="_blank">View a Step-by-step Instruction on Popular Posts Installation</a>.
+
 == Frequently Asked Questions ==
 
 = How do I enable Popular Posts display on my website? =
@@ -81,10 +86,16 @@ Please make sure that the problem hasn't been discussed on our forum yet (<a hre
 
 == Changelog ==
 
+= V0.1.1 - 08.04.2015 =
+* Bugfix : The compatibility error when working with Custom Fields Search plugin was fixed.
+
 = V0.1 - 28.01.2015 =
 * Ability to add Popular Posts Widget to the site.
 
 == Upgrade Notice ==
+
+= V0.1.1 =
+The compatibility error when working with Custom Fields Search plugin was fixed.
 
 = V0.1 =
 Upgrade immediately.

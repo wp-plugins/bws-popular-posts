@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: popular_posts\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-29 17:22+0300\n"
-"PO-Revision-Date: 2015-01-29 17:22+0300\n"
+"POT-Creation-Date: 2015-04-07 17:20+0300\n"
+"PO-Revision-Date: 2015-04-07 17:20+0300\n"
 "Last-Translator: bestwebsoft.com <plugins@bestwebsoft.com>\n"
 "Language-Team: BestWebSoft <plugin@bestwebsoft.com>\n"
 "Language: \n"
@@ -15,134 +15,132 @@ msgstr ""
 "X-Poedit-Language: Ukrainian\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../bws-popular-posts.php:80
-#: ../bws-popular-posts.php:193
-msgid "Popular Posts Settings"
-msgstr "Налаштування плагіну Popular Posts"
-
-#: ../bws-popular-posts.php:80
-#: ../bws-popular-posts.php:143
-msgid "Popular Posts"
-msgstr "Popular Posts"
-
-#: ../bws-popular-posts.php:129
-msgid "requires"
-msgstr "вимагає"
-
-#: ../bws-popular-posts.php:129
-msgid "or higher, that is why it has been deactivated! Please upgrade WordPress and try again."
-msgstr "або вище, ось чому його було деактивовано! Будь ласка, оновіть WordPress та спробуйте ще раз"
-
-#: ../bws-popular-posts.php:129
-msgid "Back to the WordPress"
-msgstr "Назад на WordPress"
-
-#: ../bws-popular-posts.php:129
-msgid "Plugins page"
-msgstr "Сторінка плагінів"
-
-#: ../bws-popular-posts.php:188
-msgid "Settings saved."
-msgstr "Налаштування збережено."
-
-#: ../bws-popular-posts.php:195
-#: ../bws-popular-posts.php:455
-#: ../bws-popular-posts.php:467
+#: ../bws-popular-posts.php:32
+#: ../bws-popular-posts.php:133
+#: ../bws-popular-posts.php:397
+#: ../bws-popular-posts.php:411
 msgid "Settings"
 msgstr "Налаштування"
 
-#: ../bws-popular-posts.php:196
-#: ../bws-popular-posts.php:468
+#: ../bws-popular-posts.php:82
+msgid "Popular Posts"
+msgstr "Popular Posts"
+
+#: ../bws-popular-posts.php:126
+msgid "Settings saved."
+msgstr "Налаштування збережено."
+
+#: ../bws-popular-posts.php:131
+msgid "Popular Posts Settings"
+msgstr "Налаштування плагіну Popular Posts"
+
+#: ../bws-popular-posts.php:134
+#: ../bws-popular-posts.php:412
 msgid "FAQ"
 msgstr "Розповсюджені питання"
 
-#: ../bws-popular-posts.php:198
+#: ../bws-popular-posts.php:136
 msgid "Notice:"
 msgstr "Зауважте:"
 
-#: ../bws-popular-posts.php:198
+#: ../bws-popular-posts.php:136
 msgid "The plugin's settings have been changed. In order to save them please don't forget to click the 'Save Changes' button."
 msgstr "Налаштування плагіну змінено. Щоб їх зберегти, будь ласка, не забудьте клікнути \"Зберегти зміни\" "
 
-#: ../bws-popular-posts.php:202
+#: ../bws-popular-posts.php:140
 msgid "If you would like to display popular posts with a widget, you need to add the widget \"Popular Posts\" in the Widgets tab."
 msgstr "Якщо ви хочете, щоб схожі пости відображались у віджеті, додайте віджет \"Popular Posts\" у вкладці Віджети."
 
-#: ../bws-popular-posts.php:205
-#: ../bws-popular-posts.php:366
+#: ../bws-popular-posts.php:143
+#: ../bws-popular-posts.php:307
 msgid "Widget title"
 msgstr "Назва віджету"
 
-#: ../bws-popular-posts.php:211
-#: ../bws-popular-posts.php:370
+#: ../bws-popular-posts.php:149
+#: ../bws-popular-posts.php:311
 msgid "Number of posts"
 msgstr "Кількість постів"
 
-#: ../bws-popular-posts.php:217
-#: ../bws-popular-posts.php:374
+#: ../bws-popular-posts.php:155
+#: ../bws-popular-posts.php:315
 msgid "Excerpt length"
 msgstr "Довжина цитати"
 
-#: ../bws-popular-posts.php:223
-#: ../bws-popular-posts.php:378
+#: ../bws-popular-posts.php:161
+#: ../bws-popular-posts.php:319
 msgid "\"Read more\" text"
 msgstr "Текст для \"more\""
 
-#: ../bws-popular-posts.php:229
-#: ../bws-popular-posts.php:382
+#: ../bws-popular-posts.php:167
+#: ../bws-popular-posts.php:323
 msgid "Default image (full URL), if no featured image is available"
 msgstr "Зображення за замовчуванням (повний URL), якщо прев’ю не існує"
 
-#: ../bws-popular-posts.php:235
-#: ../bws-popular-posts.php:386
+#: ../bws-popular-posts.php:173
+#: ../bws-popular-posts.php:327
 msgid "Order by number of"
 msgstr "Сортирування за кількістю"
 
-#: ../bws-popular-posts.php:237
-#: ../bws-popular-posts.php:387
+#: ../bws-popular-posts.php:175
+#: ../bws-popular-posts.php:328
 msgid "comments"
 msgstr "коментарів"
 
-#: ../bws-popular-posts.php:238
-#: ../bws-popular-posts.php:388
+#: ../bws-popular-posts.php:176
+#: ../bws-popular-posts.php:329
 msgid "views"
 msgstr "переглядів"
 
-#: ../bws-popular-posts.php:244
+#: ../bws-popular-posts.php:182
 msgid "Save Changes"
 msgstr "Зберегти зміни"
 
-#: ../bws-popular-posts.php:250
-msgid "If you enjoy our plugin, please give it 5 stars on WordPress"
-msgstr "Якщо вам сподобався наш плагін, будь ласка, поставте йому 5 зірочок на WordPress"
-
-#: ../bws-popular-posts.php:251
-msgid "Rate the plugin"
-msgstr "Оцінити плагін"
-
-#: ../bws-popular-posts.php:254
-msgid "If there is something wrong about it, please contact us"
-msgstr "Якщо виникли проблеми, будь ласка, повідомте нам"
-
-#: ../bws-popular-posts.php:269
+#: ../bws-popular-posts.php:198
 msgid "Popular Posts Widget"
 msgstr "Віджет Popular Posts"
 
-#: ../bws-popular-posts.php:270
+#: ../bws-popular-posts.php:199
 msgid "Widget for displaying Popular Posts by comments or views count."
 msgstr "Віджет для відображення Схожих Постів згідно кількості коментарів чи переглядів."
 
-#: ../bws-popular-posts.php:318
+#: ../bws-popular-posts.php:255
 msgid "Posted on"
 msgstr "Опубліковано"
 
-#: ../bws-popular-posts.php:320
+#: ../bws-popular-posts.php:257
 msgid "by"
-msgstr ""
+msgstr " "
 
-#: ../bws-popular-posts.php:469
+#: ../bws-popular-posts.php:413
 msgid "Support"
 msgstr "Тех.підтримка"
+
+#~ msgid "requires"
+#~ msgstr "вимагає"
+
+#~ msgid ""
+#~ "or higher, that is why it has been deactivated! Please upgrade WordPress "
+#~ "and try again."
+#~ msgstr ""
+#~ "або вище, ось чому його було деактивовано! Будь ласка, оновіть WordPress "
+#~ "та спробуйте ще раз"
+
+#~ msgid "Back to the WordPress"
+#~ msgstr "Назад на WordPress"
+
+#~ msgid "Plugins page"
+#~ msgstr "Сторінка плагінів"
+
+#~ msgid "If you enjoy our plugin, please give it 5 stars on WordPress"
+#~ msgstr ""
+#~ "Якщо вам сподобався наш плагін, будь ласка, поставте йому 5 зірочок на "
+#~ "WordPress"
+
+#~ msgid "Rate the plugin"
+#~ msgstr "Оцінити плагін"
+
+#~ msgid "If there is something wrong about it, please contact us"
+#~ msgstr "Якщо виникли проблеми, будь ласка, повідомте нам"
 
 #~ msgid "Posts number"
 #~ msgstr "Кількість постів"
