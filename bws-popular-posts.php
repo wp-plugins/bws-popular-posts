@@ -4,7 +4,7 @@ Plugin Name: Popular Posts by BestWebSoft
 Plugin URI: http://bestwebsoft.com/products/
 Description: This plugin will help you display the most popular blog posts in the widget.
 Author: BestWebSoft
-Version: 0.1.1
+Version: 0.1.2
 Author URI: http://bestwebsoft.com/
 License: GPLv3 or later
 */
@@ -29,7 +29,7 @@ License: GPLv3 or later
 if ( ! function_exists( 'pplrpsts_admin_menu' ) ) {
 	function pplrpsts_admin_menu() {
 		bws_add_general_menu( plugin_basename( __FILE__ ) );
-		add_submenu_page( 'bws_plugins', 'Popular Posts ' . __( 'Settings', 'popular_posts' ), 'Popular Posts', 'manage_options', "popular-posts.php", 'pplrpsts_settings_page' );
+		add_submenu_page( 'bws_plugins', __( 'Popular Posts Settings', 'popular_posts' ), 'Popular Posts', 'manage_options', "popular-posts.php", 'pplrpsts_settings_page' );
 	}
 }
 
@@ -189,164 +189,166 @@ if ( ! function_exists( 'pplrpsts_settings_page' ) ) {
 }
 
 /* Create widget for plugin */
-class PopularPosts extends WP_Widget {
+if ( ! class_exists( 'PopularPosts' ) ) {
+	class PopularPosts extends WP_Widget {
 
-	function PopularPosts() {
-		/* Instantiate the parent object */
-		parent::__construct( 
-			'pplrpsts_popular_posts_widget', 
-			__( 'Popular Posts Widget', 'popular_posts' ),
-			array( 'description' => __( 'Widget for displaying Popular Posts by comments or views count.', 'popular_posts' ) )
-		);
-	}
-	
-	/* Outputs the content of the widget */
-	function widget( $args, $instance ) {
-		global $post, $pplrpsts_excerpt_length, $pplrpsts_excerpt_more, $pplrpsts_options;
-		if ( empty( $pplrpsts_options ) )
-			$pplrpsts_options = get_option( 'pplrpsts_options' );
-		$widget_title     	= isset( $instance['widget_title'] ) ? $instance['widget_title'] : $pplrpsts_options['widget_title'];
-		$count            	= isset( $instance['count'] ) ? $instance['count'] : $pplrpsts_options['count'];
-		$excerpt_length 	= $pplrpsts_excerpt_length = isset( $instance['excerpt_length'] ) ? $instance['excerpt_length'] : $pplrpsts_options['excerpt_length'];
-		$excerpt_more 		= $pplrpsts_excerpt_more = isset( $instance['excerpt_more'] ) ? $instance['excerpt_more'] : $pplrpsts_options['excerpt_more']; 
-		$no_preview_img		= isset( $instance['no_preview_img'] ) ? $instance['no_preview_img'] : $pplrpsts_options['no_preview_img'];
-		$order_by			= isset( $instance['order_by'] ) ? $instance['order_by'] : $pplrpsts_options['order_by'];
-		echo $args['before_widget'];
-		if ( ! empty( $widget_title ) ) { 
-			echo $args['before_title'] . $widget_title . $args['after_title'];
-		} ?>
-		<div class="pplrpsts-popular-posts">
-			<?php if ( 'comment_count' == $order_by )
-				$query_args = array(
-					'post_type'				=> 'post',
-					'orderby'				=> 'comment_count',
-					'order'					=> 'DESC',
-					'posts_per_page'		=> $count,
-					'ignore_sticky_posts' 	=> 1
-				);
-			else
-				$query_args = array(
-					'post_type'				=> 'post',
-					'meta_key'				=> 'pplrpsts_post_views_count',
-					'orderby'				=> 'meta_value_num',
-					'order'					=> 'DESC',
-					'posts_per_page'		=> $count,
-					'ignore_sticky_posts' 	=> 1
-				);
-
-			if ( ! function_exists ( 'is_plugin_active' ) ) 
-				include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-
-			if ( is_plugin_active( 'custom-fields-search-pro/custom-fields-search-pro.php' ) || is_plugin_active( 'custom-fields-search/custom-fields-search.php' ) ) {
-				$cstmfldssrch_is_active = true;
-				remove_filter( 'posts_join', 'cstmfldssrch_join' );
-				remove_filter( 'posts_where', 'cstmfldssrch_request' );
-			}
-			$the_query = new WP_Query( $query_args );
-			/* The Loop */
-			if ( $the_query->have_posts() ) { 
-				add_filter( 'excerpt_length', 'pplrpsts_popular_posts_excerpt_length' );
-				add_filter( 'excerpt_more', 'pplrpsts_popular_posts_excerpt_more' );
-				while ( $the_query->have_posts() ) { 
-					$the_query->the_post(); ?>
-					<article class="post type-post format-standard">
-						<header class="entry-header">
-							<h1><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h1>
-							<div class="entry-meta">
-								<?php _e( 'Posted on', 'popular_posts' ) ?>
-								<a href="<?php the_permalink(); ?>" title="<?php the_time('g:i a'); ?>"><span class="entry-date"><?php the_time( 'd F, Y' ); ?></span></a> 
-								 <?php _e( 'by', 'popular_posts' ) ?> <span class="author vcard">
-									<a class="url fn n" rel="author" href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>">
-										<?php echo get_the_author(); ?>
-									</a>
-								</span>
-							</div><!-- .entry-meta -->
-						</header>
-						<div class="entry-content">
-							<a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>">
-								<?php if ( '' == get_the_post_thumbnail() ) { ?>
-									<img width="60" height="60" class="attachment-popular-post-featured-image wp-post-image" src="<?php echo $no_preview_img; ?>" />
-								<?php } else {
-									$check_size = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'popular-post-featured-image' );
-									if ( true === $check_size[3] )
-										echo get_the_post_thumbnail( $post->ID, 'popular-post-featured-image' ); 
-									else
-										echo get_the_post_thumbnail( $post->ID, array( 60, 60 ) ); 
-								} ?>
-							</a>
-							<?php the_excerpt(); ?>
-						</div><!-- .entry-content -->
-					</article><!-- .post -->
-				<?php }
-				remove_filter( 'excerpt_length', 'pplrpsts_popular_posts_excerpt_length' );
-				remove_filter( 'excerpt_more', 'pplrpsts_popular_posts_excerpt_more' );
-			} else {
-				/* no posts found */
-			}
-			/* Restore original Post Data */
-			wp_reset_postdata(); 
-			if ( isset( $cstmfldssrch_is_active ) ) {
-				add_filter( 'posts_join', 'cstmfldssrch_join' );
-				add_filter( 'posts_where', 'cstmfldssrch_request' );
+		function PopularPosts() {
+			/* Instantiate the parent object */
+			parent::__construct( 
+				'pplrpsts_popular_posts_widget', 
+				__( 'Popular Posts Widget', 'popular_posts' ),
+				array( 'description' => __( 'Widget for displaying Popular Posts by comments or views count.', 'popular_posts' ) )
+			);
+		}
+		
+		/* Outputs the content of the widget */
+		function widget( $args, $instance ) {
+			global $post, $pplrpsts_excerpt_length, $pplrpsts_excerpt_more, $pplrpsts_options;
+			if ( empty( $pplrpsts_options ) )
+				$pplrpsts_options = get_option( 'pplrpsts_options' );
+			$widget_title     	= isset( $instance['widget_title'] ) ? $instance['widget_title'] : $pplrpsts_options['widget_title'];
+			$count            	= isset( $instance['count'] ) ? $instance['count'] : $pplrpsts_options['count'];
+			$excerpt_length 	= $pplrpsts_excerpt_length = isset( $instance['excerpt_length'] ) ? $instance['excerpt_length'] : $pplrpsts_options['excerpt_length'];
+			$excerpt_more 		= $pplrpsts_excerpt_more = isset( $instance['excerpt_more'] ) ? $instance['excerpt_more'] : $pplrpsts_options['excerpt_more']; 
+			$no_preview_img		= isset( $instance['no_preview_img'] ) ? $instance['no_preview_img'] : $pplrpsts_options['no_preview_img'];
+			$order_by			= isset( $instance['order_by'] ) ? $instance['order_by'] : $pplrpsts_options['order_by'];
+			echo $args['before_widget'];
+			if ( ! empty( $widget_title ) ) { 
+				echo $args['before_title'] . $widget_title . $args['after_title'];
 			} ?>
-		</div><!-- .pplrpsts-popular-posts -->
-		<?php echo $args['after_widget'];
-	}
-	
-	/* Outputs the options form on admin */
-	function form( $instance ) {
-		global $pplrpsts_excerpt_length, $pplrpsts_excerpt_more, $pplrpsts_options;
-		if ( empty( $pplrpsts_options ) )
-			$pplrpsts_options = get_option( 'pplrpsts_options' );
-		$widget_title	= isset( $instance['widget_title'] ) ? $instance['widget_title'] : $pplrpsts_options['widget_title']; 
-		$count			= isset( $instance['count'] ) ? $instance['count'] : $pplrpsts_options['count'];
-		$excerpt_length = $pplrpsts_excerpt_length = isset( $instance['excerpt_length'] ) ? $instance['excerpt_length'] : $pplrpsts_options['excerpt_length'];
-		$excerpt_more 	= $pplrpsts_excerpt_more = isset( $instance['excerpt_more'] ) ? $instance['excerpt_more'] : $pplrpsts_options['excerpt_more'];
-		$no_preview_img = isset( $instance['no_preview_img'] ) ? $instance['no_preview_img'] : $pplrpsts_options['no_preview_img'];
-		$order_by		= isset( $instance['order_by'] ) ? $instance['order_by'] : $pplrpsts_options['order_by']; ?>
-		<p>
-			<label for="<?php echo $this->get_field_id( 'widget_title' ); ?>"><?php _e( 'Widget title', 'popular_posts' ); ?>: </label>
-			<input class="widefat" id="<?php echo $this->get_field_id( 'widget_title' ); ?>" name="<?php echo $this->get_field_name( 'widget_title' ); ?>" type="text" value="<?php echo esc_attr( $widget_title ); ?>"/>
-		</p>
-		<p>
-			<label for="<?php echo $this->get_field_id( 'count' ); ?>"><?php _e( 'Number of posts', 'popular_posts' ); ?>: </label>
-			<input class="widefat" id="<?php echo $this->get_field_id( 'count' ); ?>" name="<?php echo $this->get_field_name( 'count' ); ?>" type="text" value="<?php echo esc_attr( $count ); ?>"/>
-		</p>
-		<p>
-			<label for="<?php echo $this->get_field_id( 'excerpt_length' ); ?>"><?php _e( 'Excerpt length', 'popular_posts' ); ?>: </label>
-			<input class="widefat" id="<?php echo $this->get_field_id( 'excerpt_length' ); ?>" name="<?php echo $this->get_field_name( 'excerpt_length' ); ?>" type="text" value="<?php echo esc_attr( $excerpt_length ); ?>"/>
-		</p>
-		<p>
-			<label for="<?php echo $this->get_field_id( 'excerpt_more' ); ?>"><?php _e( '"Read more" text', 'popular_posts' ); ?>: </label>
-			<input class="widefat" id="<?php echo $this->get_field_id( 'excerpt_more' ); ?>" name="<?php echo $this->get_field_name( 'excerpt_more' ); ?>" type="text" value="<?php echo esc_attr( $excerpt_more ); ?>"/>
-		</p>
-		<p>
-			<label for="<?php echo $this->get_field_id( 'no_preview_img' ); ?>"><?php _e( 'Default image (full URL), if no featured image is available', 'popular_posts' ); ?>: </label>
-			<input class="widefat" id="<?php echo $this->get_field_id( 'no_preview_img' ); ?>" name="<?php echo $this->get_field_name( 'no_preview_img' ); ?>" type="text" value="<?php echo esc_attr( $no_preview_img ); ?>"/>
-		</p>
-		<p>
-			<label for="<?php echo $this->get_field_id( 'order_by' ); ?>"><?php _e( 'Order by number of', 'popular_posts' ); ?>: </label><br />
-			<input id="<?php echo $this->get_field_id( 'order_by' ); ?>" name="<?php echo $this->get_field_name( 'order_by' ); ?>" type="radio" value="comment_count" <?php if( 'comment_count' == esc_attr( $order_by ) ) echo 'checked="checked"'; ?> /> <?php _e( 'comments', 'popular_posts' ); ?><br />
-			<input name="<?php echo $this->get_field_name( 'order_by' ); ?>" type="radio" value="views_count" <?php if( 'views_count' == esc_attr( $order_by ) ) echo 'checked="checked"'; ?> /> <?php _e( 'views', 'popular_posts' ); ?>
-		</p>
-	<?php }
-	
-	/* Processing widget options on save */
-	function update( $new_instance, $old_instance ) {
-		global $pplrpsts_options;
-		if ( empty( $pplrpsts_options ) )
-			$pplrpsts_options = get_option( 'pplrpsts_options' );
-		$instance = array();
-		$instance['widget_title']	= ( isset( $new_instance['widget_title'] ) ) ? stripslashes( esc_html( $new_instance['widget_title'] ) ) : $pplrpsts_options['widget_title'];
-		$instance['count']			= ( ! empty( $new_instance['count'] ) ) ? intval( $new_instance['count'] ) : $pplrpsts_options['count'];
-		$instance['excerpt_length'] = ( ! empty( $new_instance['excerpt_length'] ) ) ? stripslashes( esc_html( $new_instance['excerpt_length'] ) ) : $pplrpsts_options['excerpt_length'];
-		$instance['excerpt_more']   = ( ! empty( $new_instance['excerpt_more'] ) ) ? stripslashes( esc_html( $new_instance['excerpt_more'] ) ) : $pplrpsts_options['excerpt_more'];
-		if ( ! empty( $new_instance['no_preview_img'] ) && pplrpsts_is_200( $new_instance['no_preview_img'] ) && getimagesize( $new_instance['no_preview_img'] ) )
-			$instance['no_preview_img'] = $new_instance['no_preview_img'];
-		else
-			$instance['no_preview_img'] = $pplrpsts_options['no_preview_img'];
-		$instance['order_by'] 		= ( ! empty( $new_instance['order_by'] ) ) ? $new_instance['order_by'] : $pplrpsts_options['order_by'];
-		return $instance;
+			<div class="pplrpsts-popular-posts">
+				<?php if ( 'comment_count' == $order_by )
+					$query_args = array(
+						'post_type'				=> 'post',
+						'orderby'				=> 'comment_count',
+						'order'					=> 'DESC',
+						'posts_per_page'		=> $count,
+						'ignore_sticky_posts' 	=> 1
+					);
+				else
+					$query_args = array(
+						'post_type'				=> 'post',
+						'meta_key'				=> 'pplrpsts_post_views_count',
+						'orderby'				=> 'meta_value_num',
+						'order'					=> 'DESC',
+						'posts_per_page'		=> $count,
+						'ignore_sticky_posts' 	=> 1
+					);
+
+				if ( ! function_exists ( 'is_plugin_active' ) ) 
+					include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+
+				if ( is_plugin_active( 'custom-fields-search-pro/custom-fields-search-pro.php' ) || is_plugin_active( 'custom-fields-search/custom-fields-search.php' ) ) {
+					$cstmfldssrch_is_active = true;
+					remove_filter( 'posts_join', 'cstmfldssrch_join' );
+					remove_filter( 'posts_where', 'cstmfldssrch_request' );
+				}
+				$the_query = new WP_Query( $query_args );
+				/* The Loop */
+				if ( $the_query->have_posts() ) { 
+					add_filter( 'excerpt_length', 'pplrpsts_popular_posts_excerpt_length' );
+					add_filter( 'excerpt_more', 'pplrpsts_popular_posts_excerpt_more' );
+					while ( $the_query->have_posts() ) { 
+						$the_query->the_post(); ?>
+						<article class="post type-post format-standard">
+							<header class="entry-header">
+								<h1><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h1>
+								<div class="entry-meta">
+									<?php _e( 'Posted on', 'popular_posts' ) ?>
+									<a href="<?php the_permalink(); ?>" title="<?php the_time('g:i a'); ?>"><span class="entry-date"><?php the_time( 'd F, Y' ); ?></span></a> 
+									 <?php _e( 'by', 'popular_posts' ) ?> <span class="author vcard">
+										<a class="url fn n" rel="author" href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>">
+											<?php echo get_the_author(); ?>
+										</a>
+									</span>
+								</div><!-- .entry-meta -->
+							</header>
+							<div class="entry-content">
+								<a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>">
+									<?php if ( '' == get_the_post_thumbnail() ) { ?>
+										<img width="60" height="60" class="attachment-popular-post-featured-image wp-post-image" src="<?php echo $no_preview_img; ?>" />
+									<?php } else {
+										$check_size = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'popular-post-featured-image' );
+										if ( true === $check_size[3] )
+											echo get_the_post_thumbnail( $post->ID, 'popular-post-featured-image' ); 
+										else
+											echo get_the_post_thumbnail( $post->ID, array( 60, 60 ) ); 
+									} ?>
+								</a>
+								<?php the_excerpt(); ?>
+							</div><!-- .entry-content -->
+						</article><!-- .post -->
+					<?php }
+					remove_filter( 'excerpt_length', 'pplrpsts_popular_posts_excerpt_length' );
+					remove_filter( 'excerpt_more', 'pplrpsts_popular_posts_excerpt_more' );
+				} else {
+					/* no posts found */
+				}
+				/* Restore original Post Data */
+				wp_reset_postdata(); 
+				if ( isset( $cstmfldssrch_is_active ) ) {
+					add_filter( 'posts_join', 'cstmfldssrch_join' );
+					add_filter( 'posts_where', 'cstmfldssrch_request' );
+				} ?>
+			</div><!-- .pplrpsts-popular-posts -->
+			<?php echo $args['after_widget'];
+		}
+		
+		/* Outputs the options form on admin */
+		function form( $instance ) {
+			global $pplrpsts_excerpt_length, $pplrpsts_excerpt_more, $pplrpsts_options;
+			if ( empty( $pplrpsts_options ) )
+				$pplrpsts_options = get_option( 'pplrpsts_options' );
+			$widget_title	= isset( $instance['widget_title'] ) ? $instance['widget_title'] : $pplrpsts_options['widget_title']; 
+			$count			= isset( $instance['count'] ) ? $instance['count'] : $pplrpsts_options['count'];
+			$excerpt_length = $pplrpsts_excerpt_length = isset( $instance['excerpt_length'] ) ? $instance['excerpt_length'] : $pplrpsts_options['excerpt_length'];
+			$excerpt_more 	= $pplrpsts_excerpt_more = isset( $instance['excerpt_more'] ) ? $instance['excerpt_more'] : $pplrpsts_options['excerpt_more'];
+			$no_preview_img = isset( $instance['no_preview_img'] ) ? $instance['no_preview_img'] : $pplrpsts_options['no_preview_img'];
+			$order_by		= isset( $instance['order_by'] ) ? $instance['order_by'] : $pplrpsts_options['order_by']; ?>
+			<p>
+				<label for="<?php echo $this->get_field_id( 'widget_title' ); ?>"><?php _e( 'Widget title', 'popular_posts' ); ?>: </label>
+				<input class="widefat" id="<?php echo $this->get_field_id( 'widget_title' ); ?>" name="<?php echo $this->get_field_name( 'widget_title' ); ?>" type="text" value="<?php echo esc_attr( $widget_title ); ?>"/>
+			</p>
+			<p>
+				<label for="<?php echo $this->get_field_id( 'count' ); ?>"><?php _e( 'Number of posts', 'popular_posts' ); ?>: </label>
+				<input class="widefat" id="<?php echo $this->get_field_id( 'count' ); ?>" name="<?php echo $this->get_field_name( 'count' ); ?>" type="text" value="<?php echo esc_attr( $count ); ?>"/>
+			</p>
+			<p>
+				<label for="<?php echo $this->get_field_id( 'excerpt_length' ); ?>"><?php _e( 'Excerpt length', 'popular_posts' ); ?>: </label>
+				<input class="widefat" id="<?php echo $this->get_field_id( 'excerpt_length' ); ?>" name="<?php echo $this->get_field_name( 'excerpt_length' ); ?>" type="text" value="<?php echo esc_attr( $excerpt_length ); ?>"/>
+			</p>
+			<p>
+				<label for="<?php echo $this->get_field_id( 'excerpt_more' ); ?>"><?php _e( '"Read more" text', 'popular_posts' ); ?>: </label>
+				<input class="widefat" id="<?php echo $this->get_field_id( 'excerpt_more' ); ?>" name="<?php echo $this->get_field_name( 'excerpt_more' ); ?>" type="text" value="<?php echo esc_attr( $excerpt_more ); ?>"/>
+			</p>
+			<p>
+				<label for="<?php echo $this->get_field_id( 'no_preview_img' ); ?>"><?php _e( 'Default image (full URL), if no featured image is available', 'popular_posts' ); ?>: </label>
+				<input class="widefat" id="<?php echo $this->get_field_id( 'no_preview_img' ); ?>" name="<?php echo $this->get_field_name( 'no_preview_img' ); ?>" type="text" value="<?php echo esc_attr( $no_preview_img ); ?>"/>
+			</p>
+			<p>
+				<?php _e( 'Order by number of', 'popular_posts' ); ?>:<br />
+				<label><input name="<?php echo $this->get_field_name( 'order_by' ); ?>" type="radio" value="comment_count" <?php if( 'comment_count' == esc_attr( $order_by ) ) echo 'checked="checked"'; ?> /> <?php _e( 'comments', 'popular_posts' ); ?></label><br />
+				<label><input name="<?php echo $this->get_field_name( 'order_by' ); ?>" type="radio" value="views_count" <?php if( 'views_count' == esc_attr( $order_by ) ) echo 'checked="checked"'; ?> /> <?php _e( 'views', 'popular_posts' ); ?></label>
+			</p>
+		<?php }
+		
+		/* Processing widget options on save */
+		function update( $new_instance, $old_instance ) {
+			global $pplrpsts_options;
+			if ( empty( $pplrpsts_options ) )
+				$pplrpsts_options = get_option( 'pplrpsts_options' );
+			$instance = array();
+			$instance['widget_title']	= ( isset( $new_instance['widget_title'] ) ) ? stripslashes( esc_html( $new_instance['widget_title'] ) ) : $pplrpsts_options['widget_title'];
+			$instance['count']			= ( ! empty( $new_instance['count'] ) ) ? intval( $new_instance['count'] ) : $pplrpsts_options['count'];
+			$instance['excerpt_length'] = ( ! empty( $new_instance['excerpt_length'] ) ) ? stripslashes( esc_html( $new_instance['excerpt_length'] ) ) : $pplrpsts_options['excerpt_length'];
+			$instance['excerpt_more']   = ( ! empty( $new_instance['excerpt_more'] ) ) ? stripslashes( esc_html( $new_instance['excerpt_more'] ) ) : $pplrpsts_options['excerpt_more'];
+			if ( ! empty( $new_instance['no_preview_img'] ) && pplrpsts_is_200( $new_instance['no_preview_img'] ) && getimagesize( $new_instance['no_preview_img'] ) )
+				$instance['no_preview_img'] = $new_instance['no_preview_img'];
+			else
+				$instance['no_preview_img'] = $pplrpsts_options['no_preview_img'];
+			$instance['order_by'] 		= ( ! empty( $new_instance['order_by'] ) ) ? $new_instance['order_by'] : $pplrpsts_options['order_by'];
+			return $instance;
+		}
 	}
 }
 
@@ -366,7 +368,6 @@ if ( ! function_exists ( 'pplrpsts_popular_posts_excerpt_more' ) ) {
 	}
 }
 
-
 /* Proper way to enqueue scripts and styles */
 if ( ! function_exists ( 'pplrpsts_admin_enqueue_scripts' ) ) {
 	function pplrpsts_admin_enqueue_scripts() {
@@ -383,9 +384,7 @@ if ( ! function_exists ( 'pplrpsts_wp_head' ) ) {
 	}
 }
 
-/**
- * Function to handle action links
- */
+/* Function to handle action links */
 if ( ! function_exists( 'pplrpsts_plugin_action_links' ) ) {
 	function pplrpsts_plugin_action_links( $links, $file ) {
 		if ( ! is_network_admin() ) {

@@ -1,10 +1,10 @@
 === Popular Posts by BestWebSoft ===
 Contributors: bestwebsoft
-Donate link: https://www.2checkout.com/checkout/purchase?sid=1430388&quantity=1&product_id=94
+Donate link: http://bestwebsoft.com/donate/
 Tags: popular, widget display, widget, popular post, popular posts plugin, populer, popular posts, most visited posts, poular, pppular, popluar, populare, excerpt, potss, popular posts widget, best website posts, post popularity, popular posts statictics, blog posts, post popularity rating
 Requires at least: 3.1
-Tested up to: 4.1.1
-Stable tag: 0.1.1
+Tested up to: 4.2.2
+Stable tag: 0.1.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -73,6 +73,7 @@ Chances are, you have selected 'views' in 'Order by number of:' block in the wid
 = I have some problems with the plugin's work. What Information should I provide to receive proper support? =
 
 Please make sure that the problem hasn't been discussed on our forum yet (<a href="http://support.bestwebsoft.com" target="_blank">http://support.bestwebsoft.com</a>). If not, please provide the following data, along with your problem's description:
+
 1. the link to the page, on which the problem occurs
 2. the name of the plugin and its version. If you are using a pro version - your order number.
 3. the version of your WordPress installation
@@ -86,6 +87,9 @@ Please make sure that the problem hasn't been discussed on our forum yet (<a hre
 
 == Changelog ==
 
+= V0.1.2 - 26.05.2015 =
+* Update : We updated all functionality for wordpress 4.2.2.
+
 = V0.1.1 - 08.04.2015 =
 * Bugfix : The compatibility error when working with Custom Fields Search plugin was fixed.
 
@@ -93,6 +97,9 @@ Please make sure that the problem hasn't been discussed on our forum yet (<a hre
 * Ability to add Popular Posts Widget to the site.
 
 == Upgrade Notice ==
+
+= V0.1.2 =
+We updated all functionality for wordpress 4.2.2.
 
 = V0.1.1 =
 The compatibility error when working with Custom Fields Search plugin was fixed.

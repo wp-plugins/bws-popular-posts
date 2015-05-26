@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: popular_posts\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-07 17:20+0300\n"
-"PO-Revision-Date: 2015-04-07 17:20+0300\n"
+"POT-Creation-Date: 2015-05-26 13:43+0300\n"
+"PO-Revision-Date: 2015-05-26 13:43+0300\n"
 "Last-Translator: bestwebsoft.com <plugins@bestwebsoft.com>\n"
 "Language-Team: bestwebsoft.com <plugin@bestwebsoft.com>\n"
 "Language: ru_RU\n"
@@ -17,11 +17,9 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 
 #: bws-popular-posts.php:32
-#: bws-popular-posts.php:133
-#: bws-popular-posts.php:397
-#: bws-popular-posts.php:411
-msgid "Settings"
-msgstr "Настройки"
+#: bws-popular-posts.php:131
+msgid "Popular Posts Settings"
+msgstr "Настройка Popular Posts"
 
 #: bws-popular-posts.php:82
 msgid "Popular Posts"
@@ -31,9 +29,11 @@ msgstr "Popular Posts"
 msgid "Settings saved."
 msgstr "Настройки сохранены."
 
-#: bws-popular-posts.php:131
-msgid "Popular Posts Settings"
-msgstr "Настройка Popular Posts"
+#: bws-popular-posts.php:133
+#: bws-popular-posts.php:397
+#: bws-popular-posts.php:411
+msgid "Settings"
+msgstr "Настройки"
 
 #: bws-popular-posts.php:134
 #: bws-popular-posts.php:412
@@ -53,42 +53,42 @@ msgid "If you would like to display popular posts with a widget, you need to add
 msgstr "Если вы желаете показывать популярные записи при помощи виджета, добавьте виджет \"Популярные записи\" во вкладке Виджеты."
 
 #: bws-popular-posts.php:143
-#: bws-popular-posts.php:307
+#: bws-popular-posts.php:309
 msgid "Widget title"
 msgstr "Название виджета"
 
 #: bws-popular-posts.php:149
-#: bws-popular-posts.php:311
+#: bws-popular-posts.php:313
 msgid "Number of posts"
 msgstr "Количество постов"
 
 #: bws-popular-posts.php:155
-#: bws-popular-posts.php:315
+#: bws-popular-posts.php:317
 msgid "Excerpt length"
 msgstr "Длина цитаты"
 
 #: bws-popular-posts.php:161
-#: bws-popular-posts.php:319
+#: bws-popular-posts.php:321
 msgid "\"Read more\" text"
 msgstr "Текст для ссылки \"more\""
 
 #: bws-popular-posts.php:167
-#: bws-popular-posts.php:323
+#: bws-popular-posts.php:325
 msgid "Default image (full URL), if no featured image is available"
 msgstr "Изображение по умолчанию (полный URL), если у поста нет изображения"
 
 #: bws-popular-posts.php:173
-#: bws-popular-posts.php:327
+#: bws-popular-posts.php:329
 msgid "Order by number of"
 msgstr "Сортировать по количеству"
 
 #: bws-popular-posts.php:175
-#: bws-popular-posts.php:328
+#: bws-popular-posts.php:330
 msgid "comments"
 msgstr "комментариев"
 
 #: bws-popular-posts.php:176
-#: bws-popular-posts.php:329
+#: bws-popular-posts.php:331
 msgid "views"
 msgstr "просмотров"
 
@@ -96,19 +96,19 @@ msgstr "просмотров"
 msgid "Save Changes"
 msgstr "Сохранить изменения"
 
-#: bws-popular-posts.php:198
+#: bws-popular-posts.php:199
 msgid "Popular Posts Widget"
 msgstr "Виджет Популярных записей"
 
-#: bws-popular-posts.php:199
+#: bws-popular-posts.php:200
 msgid "Widget for displaying Popular Posts by comments or views count."
 msgstr "Виджет для отображения Популярных записей по количеству комментариев или же количеству просмотров."
 
-#: bws-popular-posts.php:255
+#: bws-popular-posts.php:257
 msgid "Posted on"
 msgstr "Опубликовано"
 
-#: bws-popular-posts.php:257
+#: bws-popular-posts.php:259
 msgid "by"
 msgstr " "
 
