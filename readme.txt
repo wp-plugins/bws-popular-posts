@@ -3,8 +3,8 @@ Contributors: bestwebsoft
 Donate link: http://bestwebsoft.com/donate/
 Tags: popular, widget display, widget, popular post, popular posts plugin, populer, popular posts, most visited posts, poular, pppular, popluar, populare, excerpt, potss, popular posts widget, best website posts, post popularity, popular posts statictics, blog posts, post popularity rating
 Requires at least: 3.1
-Tested up to: 4.2.2
-Stable tag: 0.1.2
+Tested up to: 4.2.3
+Stable tag: 0.1.3
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -18,6 +18,8 @@ Note: This is a public beta version, which contains basic product options. You a
 Popular Posts by BestWebSoft plugin allows you to display the most popular posts in the widget. This plugin doesn’t require any additional settings, though there are some available options that can be adjusted. All you need to do is activate the plugin and add Popular Posts Widget to the sidebar.
 
 http://www.youtube.com/watch?v=eakI5x5MUZ0
+
+<a href="https://www.youtube.com/watch?v=b1NUykQFSjU" target="_blank">Video instruction on Installation</a>
 
 <a href="http://wordpress.org/plugins/bws-popular-posts/faq/" target="_blank">FAQ</a>
 
@@ -60,6 +62,8 @@ We can fix some things for free for the users who provide translation of our plu
 
 <a href="https://docs.google.com/document/d/1xv8Y3Tvb6afKVakJrABQjGmIJyWPaLiAqjmP0bpApd0/edit" target="_blank">View a Step-by-step Instruction on Popular Posts Installation</a>.
 
+http://www.youtube.com/watch?v=b1NUykQFSjU
+
 == Frequently Asked Questions ==
 
 = How do I enable Popular Posts display on my website? =
@@ -77,7 +81,7 @@ Please make sure that the problem hasn't been discussed on our forum yet (<a hre
 1. the link to the page, on which the problem occurs
 2. the name of the plugin and its version. If you are using a pro version - your order number.
 3. the version of your WordPress installation
-4. copy and paste your system status report into the message. Please read more here: <a href="https://docs.google.com/document/d/1Wi2X8RdRGXk9kMszQy1xItJrpN0ncXgioH935MaBKtc/edit?pli=1" target="_blank">Instuction on System Status</a>
+4. copy and paste your system status report into the message. Please read more here: <a href="https://docs.google.com/document/d/1Wi2X8RdRGXk9kMszQy1xItJrpN0ncXgioH935MaBKtc/edit?pli=1" target="_blank">Instruction on System Status</a>
 
 == Screenshots ==
 
@@ -86,6 +90,12 @@ Please make sure that the problem hasn't been discussed on our forum yet (<a hre
 3. Popular Posts Widget display on the page.
 
 == Changelog ==
+
+= V0.1.3 - 31.07.2015 =
+* New : Ability to restore settings to defaults.
+* Bugfix : We fixed the bug with widgets translation in the Admin Panel.
+* Update : Input maxlength is added.
+* Update : We updated all functionality for wordpress 4.2.3.
 
 = V0.1.2 - 26.05.2015 =
 * Update : We updated all functionality for wordpress 4.2.2.
@@ -97,6 +107,9 @@ Please make sure that the problem hasn't been discussed on our forum yet (<a hre
 * Ability to add Popular Posts Widget to the site.
 
 == Upgrade Notice ==
+
+= V0.1.3 =
+Ability to restore settings to defaults. We fixed the bug with widgets translation in the Admin Panel. Input maxlength is added. We updated all functionality for wordpress 4.2.3.
 
 = V0.1.2 =
 We updated all functionality for wordpress 4.2.2.

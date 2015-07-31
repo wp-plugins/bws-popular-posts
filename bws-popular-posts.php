@@ -4,7 +4,7 @@ Plugin Name: Popular Posts by BestWebSoft
 Plugin URI: http://bestwebsoft.com/products/
 Description: This plugin will help you display the most popular blog posts in the widget.
 Author: BestWebSoft
-Version: 0.1.2
+Version: 0.1.3
 Author URI: http://bestwebsoft.com/
 License: GPLv3 or later
 */
@@ -36,9 +36,7 @@ if ( ! function_exists( 'pplrpsts_admin_menu' ) ) {
 /* Plugin initialization - add internationalization and size for image*/
 if ( ! function_exists ( 'pplrpsts_init' ) ) {
 	function pplrpsts_init() {
-		global $pplrpsts_plugin_info;	
-		/* Internationalization, first(!) */
-		load_plugin_textdomain( 'popular_posts', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' ); 
+		global $pplrpsts_plugin_info;
 
 		require_once( dirname( __FILE__ ) . '/bws_menu/bws_functions.php' );
 		
@@ -49,7 +47,7 @@ if ( ! function_exists ( 'pplrpsts_init' ) ) {
 		}
 
 		/* Function check if plugin is compatible with current WP version  */
-		bws_wp_version_check( plugin_basename( __FILE__ ), $pplrpsts_plugin_info, "3.1" );
+		bws_wp_version_check( plugin_basename( __FILE__ ), $pplrpsts_plugin_info, '3.1' );
 
 		if ( ! session_id() )
 			@session_start();
@@ -75,7 +73,7 @@ if ( ! function_exists ( 'pplrpsts_admin_init' ) ) {
 /* Setting options */
 if ( ! function_exists( 'pplrpsts_set_options' ) ) {
 	function pplrpsts_set_options() {
-		global $pplrpsts_options, $pplrpsts_plugin_info;
+		global $pplrpsts_options, $pplrpsts_plugin_info, $pplrpsts_options_defaults;
 
 		$pplrpsts_options_defaults	=	array(
 			'plugin_option_version'	=>	$pplrpsts_plugin_info["Version"],			
@@ -104,7 +102,7 @@ if ( ! function_exists( 'pplrpsts_set_options' ) ) {
 /* Function for display popular_posts settings page in the admin area */
 if ( ! function_exists( 'pplrpsts_settings_page' ) ) {
 	function pplrpsts_settings_page() {
-		global $pplrpsts_options, $pplrpsts_plugin_info;
+		global $pplrpsts_options, $pplrpsts_plugin_info, $pplrpsts_options_defaults;
 		$error = $message = "";
 
 		/* Save data for settings page */
@@ -112,7 +110,7 @@ if ( ! function_exists( 'pplrpsts_settings_page' ) ) {
 
 			$pplrpsts_options['widget_title']	= ( ! empty( $_POST['pplrpsts_widget_title'] ) ) ? stripslashes( esc_html( $_POST['pplrpsts_widget_title'] ) ) : null;
 			$pplrpsts_options['count']			= ( ! empty( $_POST['pplrpsts_count'] ) ) ? intval( $_POST['pplrpsts_count'] ) : 2;
-			$pplrpsts_options['excerpt_length'] = ( ! empty( $_POST['pplrpsts_excerpt_length'] ) ) ? stripslashes( esc_html( $_POST['pplrpsts_excerpt_length'] ) ) : 10;
+			$pplrpsts_options['excerpt_length'] = ( ! empty( $_POST['pplrpsts_excerpt_length'] ) ) ? intval( $_POST['pplrpsts_excerpt_length'] ) : 10;
 			$pplrpsts_options['excerpt_more']   = ( ! empty( $_POST['pplrpsts_excerpt_more'] ) ) ? stripslashes( esc_html( $_POST['pplrpsts_excerpt_more'] ) ) : '...';
 			if ( ! empty( $_POST['pplrpsts_no_preview_img'] ) && pplrpsts_is_200( $_POST['pplrpsts_no_preview_img'] ) && getimagesize( $_POST['pplrpsts_no_preview_img'] ) )
 				$pplrpsts_options['no_preview_img'] = $_POST['pplrpsts_no_preview_img'];
@@ -125,7 +123,16 @@ if ( ! function_exists( 'pplrpsts_settings_page' ) ) {
 				update_option( 'pplrpsts_options', $pplrpsts_options );
 				$message = __( "Settings saved.", 'popular_posts' );
 			}
-		} /* Display form on the setting page */ ?>
+		}
+
+		/* Add restore function */
+		if ( isset( $_REQUEST['bws_restore_confirm'] ) && check_admin_referer( plugin_basename(__FILE__), 'bws_settings_nonce_name' ) ) {
+			$pplrpsts_options = $pplrpsts_options_defaults;
+			update_option( 'pplrpsts_options', $pplrpsts_options );
+			$message = __( 'All plugin settings were restored.', 'popular_posts' );
+		} /* end */
+
+		/* Display form on the setting page */ ?>
 		<div class="wrap">
 			<div class="icon32 icon32-bws" id="icon-options-general"></div>
 			<h2><?php _e( 'Popular Posts Settings', 'popular_posts' ); ?></h2>
@@ -134,56 +141,63 @@ if ( ! function_exists( 'pplrpsts_settings_page' ) ) {
 				<a class="nav-tab" href="http://bestwebsoft.com/products/popular-posts/faq/" target="_blank"><?php _e( 'FAQ', 'popular_posts' ); ?></a>
 			</h2>
 			<div id="pplrpsts_settings_notice" class="updated fade" style="display:none"><p><strong><?php _e( "Notice:", 'popular_posts' ); ?></strong> <?php _e( "The plugin's settings have been changed. In order to save them please don't forget to click the 'Save Changes' button.", 'popular_posts' ); ?></p></div>
-			<div class="updated fade" <?php if ( ! isset( $_REQUEST['pplrpsts_form_submit'] ) || $error != "" ) echo "style=\"display:none\""; ?>><p><strong><?php echo $message; ?></strong></p></div>
+			<div class="updated fade" <?php if ( $message == "" || "" != $error ) echo "style=\"display:none\""; ?>><p><strong><?php echo $message; ?></strong></p></div>
 			<div class="error" <?php if ( "" == $error ) echo "style=\"display:none\""; ?>><p><?php echo $error; ?></p></div>
-			<form id="pplrpsts_settings_form" method="post" action="admin.php?page=popular-posts.php">
-				<p><?php _e( 'If you would like to display popular posts with a widget, you need to add the widget "Popular Posts" in the Widgets tab.', 'popular_posts' ); ?></p>
-				<table class="form-table">
-					<tr valign="top">
-						<th scope="row"><?php _e( 'Widget title', 'popular_posts' ); ?></th>
-						<td>
-							<input name="pplrpsts_widget_title" type="text" value="<?php echo $pplrpsts_options['widget_title']; ?>"/>
-						</td>
-					</tr>
-					<tr valign="top">
-						<th scope="row"><?php _e( 'Number of posts', 'popular_posts' ); ?></th>
-						<td>
-							<input name="pplrpsts_count" type="text" value="<?php echo $pplrpsts_options['count']; ?>"/>
-						</td>
-					</tr>
-					<tr valign="top">
-						<th scope="row"><?php _e( 'Excerpt length', 'popular_posts' ); ?></th>
-						<td>
-							<input name="pplrpsts_excerpt_length" type="text" value="<?php echo $pplrpsts_options['excerpt_length']; ?>"/>
-						</td>
-					</tr>
-					<tr valign="top">
-						<th scope="row"><?php _e( '"Read more" text', 'popular_posts' ); ?></th>
-						<td>
-							<input name="pplrpsts_excerpt_more" type="text" value="<?php echo $pplrpsts_options['excerpt_more']; ?>"/>
-						</td>
-					</tr>
-					<tr valign="top">
-						<th scope="row"><?php _e( 'Default image (full URL), if no featured image is available', 'popular_posts' ); ?></th>
-						<td>
-							<input name="pplrpsts_no_preview_img" type="text" value="<?php echo $pplrpsts_options['no_preview_img']; ?>"/>
-						</td>
-					</tr>
-					<tr valign="top">
-						<th scope="row"><?php _e( 'Order by number of', 'popular_posts' ); ?></th>
-						<td>
-							<label><input name="pplrpsts_order_by" type="radio" value="comment_count" <?php if ( 'comment_count' == $pplrpsts_options['order_by'] ) echo 'checked="checked"'; ?> /> <?php _e( 'comments', 'popular_posts' ); ?></label><br />
-							<label><input name="pplrpsts_order_by" type="radio" value="views_count" <?php if ( 'views_count' == $pplrpsts_options['order_by'] ) echo 'checked="checked"'; ?> /> <?php _e( 'views', 'popular_posts' ); ?></label>
-						</td>
-					</tr>
-				</table>
-				<input type="hidden" name="pplrpsts_form_submit" value="submit" />
-				<p class="submit">
-					<input type="submit" class="button-primary" value="<?php _e( 'Save Changes', 'popular_posts' ); ?>" />
-				</p>
-				<?php wp_nonce_field( plugin_basename(__FILE__), 'pplrpsts_nonce_name' ); ?>
-			</form>
-			<?php bws_plugin_reviews_block( $pplrpsts_plugin_info["Name"], 'bws-popular-posts' ); ?>
+			<?php if ( ! isset( $_GET['action'] ) ) { 
+				if ( isset( $_REQUEST['bws_restore_default'] ) && check_admin_referer( plugin_basename(__FILE__), 'bws_settings_nonce_name' ) ) {
+					bws_form_restore_default_confirm( plugin_basename(__file__) );
+				} else { ?>
+					<form id="pplrpsts_settings_form" method="post" action="admin.php?page=popular-posts.php">
+						<p><?php _e( 'If you would like to display popular posts with a widget, you need to add the widget "Popular Posts Widget" in the Widgets tab.', 'popular_posts' ); ?></p>
+						<table class="form-table">
+							<tr valign="top">
+								<th scope="row"><?php _e( 'Widget title', 'popular_posts' ); ?></th>
+								<td>
+									<input name="pplrpsts_widget_title" type="text" maxlength="250" value="<?php echo $pplrpsts_options['widget_title']; ?>"/>
+								</td>
+							</tr>
+							<tr valign="top">
+								<th scope="row"><?php _e( 'Number of posts', 'popular_posts' ); ?></th>
+								<td>
+									<input name="pplrpsts_count" type="number" min="1" max="10000" value="<?php echo $pplrpsts_options['count']; ?>"/>
+								</td>
+							</tr>
+							<tr valign="top">
+								<th scope="row"><?php _e( 'Excerpt length', 'popular_posts' ); ?></th>
+								<td>
+									<input name="pplrpsts_excerpt_length" type="number" min="1" max="10000" value="<?php echo $pplrpsts_options['excerpt_length']; ?>"/>
+								</td>
+							</tr>
+							<tr valign="top">
+								<th scope="row"><?php _e( '"Read more" text', 'popular_posts' ); ?></th>
+								<td>
+									<input name="pplrpsts_excerpt_more" type="text" maxlength="250" value="<?php echo $pplrpsts_options['excerpt_more']; ?>"/>
+								</td>
+							</tr>
+							<tr valign="top">
+								<th scope="row"><?php _e( 'Default image (full URL), if no featured image is available', 'popular_posts' ); ?></th>
+								<td>
+									<input name="pplrpsts_no_preview_img" type="text" maxlength="250" value="<?php echo $pplrpsts_options['no_preview_img']; ?>"/>
+								</td>
+							</tr>
+							<tr valign="top">
+								<th scope="row"><?php _e( 'Order by number of', 'popular_posts' ); ?></th>
+								<td>
+									<label><input name="pplrpsts_order_by" type="radio" value="comment_count" <?php if ( 'comment_count' == $pplrpsts_options['order_by'] ) echo 'checked="checked"'; ?> /> <?php _e( 'comments', 'popular_posts' ); ?></label><br />
+									<label><input name="pplrpsts_order_by" type="radio" value="views_count" <?php if ( 'views_count' == $pplrpsts_options['order_by'] ) echo 'checked="checked"'; ?> /> <?php _e( 'views', 'popular_posts' ); ?></label>
+								</td>
+							</tr>
+						</table>
+						<input type="hidden" name="pplrpsts_form_submit" value="submit" />
+						<p class="submit">
+							<input type="submit" class="button-primary" value="<?php _e( 'Save Changes', 'popular_posts' ); ?>" />
+						</p>
+						<?php wp_nonce_field( plugin_basename(__FILE__), 'pplrpsts_nonce_name' ); ?>
+					</form>
+					<?php bws_form_restore_default_settings( plugin_basename(__file__) );
+				}
+			}
+			bws_plugin_reviews_block( $pplrpsts_plugin_info["Name"], 'bws-popular-posts' ); ?>
 		</div>
 	<?php }
 }
@@ -206,10 +220,10 @@ if ( ! class_exists( 'PopularPosts' ) ) {
 			global $post, $pplrpsts_excerpt_length, $pplrpsts_excerpt_more, $pplrpsts_options;
 			if ( empty( $pplrpsts_options ) )
 				$pplrpsts_options = get_option( 'pplrpsts_options' );
-			$widget_title     	= isset( $instance['widget_title'] ) ? $instance['widget_title'] : $pplrpsts_options['widget_title'];
-			$count            	= isset( $instance['count'] ) ? $instance['count'] : $pplrpsts_options['count'];
-			$excerpt_length 	= $pplrpsts_excerpt_length = isset( $instance['excerpt_length'] ) ? $instance['excerpt_length'] : $pplrpsts_options['excerpt_length'];
-			$excerpt_more 		= $pplrpsts_excerpt_more = isset( $instance['excerpt_more'] ) ? $instance['excerpt_more'] : $pplrpsts_options['excerpt_more']; 
+			$widget_title     	= isset( $instance['widget_title'] ) ? stripslashes( esc_html( $instance['widget_title'] ) ) : $pplrpsts_options['widget_title'];
+			$count            	= isset( $instance['count'] ) ? intval( $instance['count'] ) : $pplrpsts_options['count'];
+			$excerpt_length 	= $pplrpsts_excerpt_length = isset( $instance['excerpt_length'] ) ? intval( $instance['excerpt_length'] ) : $pplrpsts_options['excerpt_length'];
+			$excerpt_more 		= $pplrpsts_excerpt_more = isset( $instance['excerpt_more'] ) ? stripslashes( esc_html( $instance['excerpt_more'] ) ) : $pplrpsts_options['excerpt_more']; 
 			$no_preview_img		= isset( $instance['no_preview_img'] ) ? $instance['no_preview_img'] : $pplrpsts_options['no_preview_img'];
 			$order_by			= isset( $instance['order_by'] ) ? $instance['order_by'] : $pplrpsts_options['order_by'];
 			echo $args['before_widget'];
@@ -299,31 +313,31 @@ if ( ! class_exists( 'PopularPosts' ) ) {
 			global $pplrpsts_excerpt_length, $pplrpsts_excerpt_more, $pplrpsts_options;
 			if ( empty( $pplrpsts_options ) )
 				$pplrpsts_options = get_option( 'pplrpsts_options' );
-			$widget_title	= isset( $instance['widget_title'] ) ? $instance['widget_title'] : $pplrpsts_options['widget_title']; 
-			$count			= isset( $instance['count'] ) ? $instance['count'] : $pplrpsts_options['count'];
-			$excerpt_length = $pplrpsts_excerpt_length = isset( $instance['excerpt_length'] ) ? $instance['excerpt_length'] : $pplrpsts_options['excerpt_length'];
-			$excerpt_more 	= $pplrpsts_excerpt_more = isset( $instance['excerpt_more'] ) ? $instance['excerpt_more'] : $pplrpsts_options['excerpt_more'];
+			$widget_title	= isset( $instance['widget_title'] ) ? stripslashes( esc_html( $instance['widget_title'] ) ) : $pplrpsts_options['widget_title']; 
+			$count			= isset( $instance['count'] ) ? intval( $instance['count'] ) : $pplrpsts_options['count'];
+			$excerpt_length = $pplrpsts_excerpt_length = isset( $instance['excerpt_length'] ) ? intval( $instance['excerpt_length'] ) : $pplrpsts_options['excerpt_length'];
+			$excerpt_more 	= $pplrpsts_excerpt_more = isset( $instance['excerpt_more'] ) ? stripslashes( esc_html( $instance['excerpt_more'] ) ) : $pplrpsts_options['excerpt_more'];
 			$no_preview_img = isset( $instance['no_preview_img'] ) ? $instance['no_preview_img'] : $pplrpsts_options['no_preview_img'];
 			$order_by		= isset( $instance['order_by'] ) ? $instance['order_by'] : $pplrpsts_options['order_by']; ?>
 			<p>
 				<label for="<?php echo $this->get_field_id( 'widget_title' ); ?>"><?php _e( 'Widget title', 'popular_posts' ); ?>: </label>
-				<input class="widefat" id="<?php echo $this->get_field_id( 'widget_title' ); ?>" name="<?php echo $this->get_field_name( 'widget_title' ); ?>" type="text" value="<?php echo esc_attr( $widget_title ); ?>"/>
+				<input class="widefat" id="<?php echo $this->get_field_id( 'widget_title' ); ?>" name="<?php echo $this->get_field_name( 'widget_title' ); ?>" type="text" maxlength="250" value="<?php echo esc_attr( $widget_title ); ?>"/>
 			</p>
 			<p>
 				<label for="<?php echo $this->get_field_id( 'count' ); ?>"><?php _e( 'Number of posts', 'popular_posts' ); ?>: </label>
-				<input class="widefat" id="<?php echo $this->get_field_id( 'count' ); ?>" name="<?php echo $this->get_field_name( 'count' ); ?>" type="text" value="<?php echo esc_attr( $count ); ?>"/>
+				<input class="widefat" id="<?php echo $this->get_field_id( 'count' ); ?>" name="<?php echo $this->get_field_name( 'count' ); ?>" type="number" min="1" max="10000" value="<?php echo esc_attr( $count ); ?>"/>
 			</p>
 			<p>
 				<label for="<?php echo $this->get_field_id( 'excerpt_length' ); ?>"><?php _e( 'Excerpt length', 'popular_posts' ); ?>: </label>
-				<input class="widefat" id="<?php echo $this->get_field_id( 'excerpt_length' ); ?>" name="<?php echo $this->get_field_name( 'excerpt_length' ); ?>" type="text" value="<?php echo esc_attr( $excerpt_length ); ?>"/>
+				<input class="widefat" id="<?php echo $this->get_field_id( 'excerpt_length' ); ?>" name="<?php echo $this->get_field_name( 'excerpt_length' ); ?>" type="number" min="1" max="10000" value="<?php echo esc_attr( $excerpt_length ); ?>"/>
 			</p>
 			<p>
 				<label for="<?php echo $this->get_field_id( 'excerpt_more' ); ?>"><?php _e( '"Read more" text', 'popular_posts' ); ?>: </label>
-				<input class="widefat" id="<?php echo $this->get_field_id( 'excerpt_more' ); ?>" name="<?php echo $this->get_field_name( 'excerpt_more' ); ?>" type="text" value="<?php echo esc_attr( $excerpt_more ); ?>"/>
+				<input class="widefat" id="<?php echo $this->get_field_id( 'excerpt_more' ); ?>" name="<?php echo $this->get_field_name( 'excerpt_more' ); ?>" type="text" maxlength="250" value="<?php echo esc_attr( $excerpt_more ); ?>"/>
 			</p>
 			<p>
 				<label for="<?php echo $this->get_field_id( 'no_preview_img' ); ?>"><?php _e( 'Default image (full URL), if no featured image is available', 'popular_posts' ); ?>: </label>
-				<input class="widefat" id="<?php echo $this->get_field_id( 'no_preview_img' ); ?>" name="<?php echo $this->get_field_name( 'no_preview_img' ); ?>" type="text" value="<?php echo esc_attr( $no_preview_img ); ?>"/>
+				<input class="widefat" id="<?php echo $this->get_field_id( 'no_preview_img' ); ?>" name="<?php echo $this->get_field_name( 'no_preview_img' ); ?>" type="text" maxlength="250" value="<?php echo esc_attr( $no_preview_img ); ?>"/>
 			</p>
 			<p>
 				<?php _e( 'Order by number of', 'popular_posts' ); ?>:<br />
@@ -340,7 +354,7 @@ if ( ! class_exists( 'PopularPosts' ) ) {
 			$instance = array();
 			$instance['widget_title']	= ( isset( $new_instance['widget_title'] ) ) ? stripslashes( esc_html( $new_instance['widget_title'] ) ) : $pplrpsts_options['widget_title'];
 			$instance['count']			= ( ! empty( $new_instance['count'] ) ) ? intval( $new_instance['count'] ) : $pplrpsts_options['count'];
-			$instance['excerpt_length'] = ( ! empty( $new_instance['excerpt_length'] ) ) ? stripslashes( esc_html( $new_instance['excerpt_length'] ) ) : $pplrpsts_options['excerpt_length'];
+			$instance['excerpt_length'] = ( ! empty( $new_instance['excerpt_length'] ) ) ? intval( $new_instance['excerpt_length'] ) : $pplrpsts_options['excerpt_length'];
 			$instance['excerpt_more']   = ( ! empty( $new_instance['excerpt_more'] ) ) ? stripslashes( esc_html( $new_instance['excerpt_more'] ) ) : $pplrpsts_options['excerpt_more'];
 			if ( ! empty( $new_instance['no_preview_img'] ) && pplrpsts_is_200( $new_instance['no_preview_img'] ) && getimagesize( $new_instance['no_preview_img'] ) )
 				$instance['no_preview_img'] = $new_instance['no_preview_img'];
@@ -408,9 +422,9 @@ if ( ! function_exists ( 'pplrpsts_register_plugin_links' ) ) {
 		$base = plugin_basename(__FILE__);
 		if ( $file == $base ) {
 			if ( ! is_network_admin() )
-				$links[] = '<a href="admin.php?page=popular-posts.php">' . __( 'Settings','popular_posts' ) . '</a>';
-			$links[] = '<a href="http://wordpress.org/plugins/bws-popular-posts/faq/" target="_blank">' . __( 'FAQ','popular_posts' ) . '</a>';
-			$links[] = '<a href="http://support.bestwebsoft.com">' . __( 'Support','popular_posts' ) . '</a>';
+				$links[] = '<a href="admin.php?page=popular-posts.php">' . __( 'Settings', 'popular_posts' ) . '</a>';
+			$links[] = '<a href="http://wordpress.org/plugins/bws-popular-posts/faq/" target="_blank">' . __( 'FAQ', 'popular_posts' ) . '</a>';
+			$links[] = '<a href="http://support.bestwebsoft.com">' . __( 'Support', 'popular_posts' ) . '</a>';
 		}
 		return $links;
 	}
@@ -419,6 +433,8 @@ if ( ! function_exists ( 'pplrpsts_register_plugin_links' ) ) {
 /* Register a widget */
 if ( ! function_exists ( 'pplrpsts_register_widgets' ) ) {
 	function pplrpsts_register_widgets() {
+		/* Internationalization, first(!) */
+		load_plugin_textdomain( 'popular_posts', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' ); 
 		register_widget( 'PopularPosts' );
 	}
 }

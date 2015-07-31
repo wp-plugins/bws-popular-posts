@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: popular_posts\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-26 13:43+0300\n"
-"PO-Revision-Date: 2015-05-26 13:43+0300\n"
-"Last-Translator: bestwebsoft.com <plugins@bestwebsoft.com>\n"
+"POT-Creation-Date: 2015-07-29 11:46+0300\n"
+"PO-Revision-Date: 2015-07-29 11:47+0300\n"
+"Last-Translator: plugin@bestwebsoft.com <plugin@bestwebsoft.com>\n"
 "Language-Team: bestwebsoft.com <plugin@bestwebsoft.com>\n"
 "Language: ru_RU\n"
 "MIME-Version: 1.0\n"
@@ -13,106 +13,109 @@ msgstr ""
 "X-Poedit-KeywordsList: __;_e\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Poedit 1.5.7\n"
+"X-Generator: Poedit 1.5.4\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: bws-popular-posts.php:32
-#: bws-popular-posts.php:131
+#: bws-popular-posts.php:32 bws-popular-posts.php:138
 msgid "Popular Posts Settings"
-msgstr "Настройка Popular Posts"
+msgstr "Настройки Popular Posts"
 
-#: bws-popular-posts.php:82
+#: bws-popular-posts.php:80
 msgid "Popular Posts"
 msgstr "Popular Posts"
 
-#: bws-popular-posts.php:126
+#: bws-popular-posts.php:124
 msgid "Settings saved."
 msgstr "Настройки сохранены."
 
-#: bws-popular-posts.php:133
-#: bws-popular-posts.php:397
-#: bws-popular-posts.php:411
+#: bws-popular-posts.php:132
+msgid "All plugin settings were restored."
+msgstr "Все настройки плагина восстановлены."
+
+#: bws-popular-posts.php:140 bws-popular-posts.php:411
+#: bws-popular-posts.php:425
 msgid "Settings"
 msgstr "Настройки"
 
-#: bws-popular-posts.php:134
-#: bws-popular-posts.php:412
+#: bws-popular-posts.php:141 bws-popular-posts.php:426
 msgid "FAQ"
 msgstr "FAQ"
 
-#: bws-popular-posts.php:136
+#: bws-popular-posts.php:143
 msgid "Notice:"
 msgstr "Внимание:"
 
-#: bws-popular-posts.php:136
-msgid "The plugin's settings have been changed. In order to save them please don't forget to click the 'Save Changes' button."
-msgstr "Настройки плагина были изменены. Для того, чтобы сохранить их, пожалуйста, не забудьте нажать кнопку \"Сохранить\"."
-
-#: bws-popular-posts.php:140
-msgid "If you would like to display popular posts with a widget, you need to add the widget \"Popular Posts\" in the Widgets tab."
-msgstr "Если вы желаете показывать популярные записи при помощи виджета, добавьте виджет \"Популярные записи\" во вкладке Виджеты."
-
 #: bws-popular-posts.php:143
-#: bws-popular-posts.php:309
+msgid ""
+"The plugin's settings have been changed. In order to save them please don't "
+"forget to click the 'Save Changes' button."
+msgstr ""
+"Настройки плагина были изменены. Для того, чтобы сохранить их, пожалуйста, "
+"не забудьте нажать кнопку \"Сохранить\"."
+
+#: bws-popular-posts.php:151
+msgid ""
+"If you would like to display popular posts with a widget, you need to add "
+"the widget \"Popular Posts Widget\" in the Widgets tab."
+msgstr ""
+"Если вы желаете показывать популярные записи при помощи виджета, добавьте "
+"виджет \"Виджет Популярных записей\" во вкладке Виджеты."
+
+#: bws-popular-posts.php:154 bws-popular-posts.php:323
 msgid "Widget title"
 msgstr "Название виджета"
 
-#: bws-popular-posts.php:149
-#: bws-popular-posts.php:313
+#: bws-popular-posts.php:160 bws-popular-posts.php:327
 msgid "Number of posts"
 msgstr "Количество постов"
 
-#: bws-popular-posts.php:155
-#: bws-popular-posts.php:317
+#: bws-popular-posts.php:166 bws-popular-posts.php:331
 msgid "Excerpt length"
 msgstr "Длина цитаты"
 
-#: bws-popular-posts.php:161
-#: bws-popular-posts.php:321
+#: bws-popular-posts.php:172 bws-popular-posts.php:335
 msgid "\"Read more\" text"
 msgstr "Текст для ссылки \"more\""
 
-#: bws-popular-posts.php:167
-#: bws-popular-posts.php:325
+#: bws-popular-posts.php:178 bws-popular-posts.php:339
 msgid "Default image (full URL), if no featured image is available"
 msgstr "Изображение по умолчанию (полный URL), если у поста нет изображения"
 
-#: bws-popular-posts.php:173
-#: bws-popular-posts.php:329
+#: bws-popular-posts.php:184 bws-popular-posts.php:343
 msgid "Order by number of"
 msgstr "Сортировать по количеству"
 
-#: bws-popular-posts.php:175
-#: bws-popular-posts.php:330
+#: bws-popular-posts.php:186 bws-popular-posts.php:344
 msgid "comments"
 msgstr "комментариев"
 
-#: bws-popular-posts.php:176
-#: bws-popular-posts.php:331
+#: bws-popular-posts.php:187 bws-popular-posts.php:345
 msgid "views"
 msgstr "просмотров"
 
-#: bws-popular-posts.php:182
+#: bws-popular-posts.php:193
 msgid "Save Changes"
 msgstr "Сохранить изменения"
 
-#: bws-popular-posts.php:199
+#: bws-popular-posts.php:213
 msgid "Popular Posts Widget"
 msgstr "Виджет Популярных записей"
 
-#: bws-popular-posts.php:200
+#: bws-popular-posts.php:214
 msgid "Widget for displaying Popular Posts by comments or views count."
-msgstr "Виджет для отображения Популярных записей по количеству комментариев или же количеству просмотров."
+msgstr ""
+"Виджет для отображения Популярных записей по количеству комментариев или же "
+"количеству просмотров."
 
-#: bws-popular-posts.php:257
+#: bws-popular-posts.php:271
 msgid "Posted on"
 msgstr "Опубликовано"
 
-#: bws-popular-posts.php:259
+#: bws-popular-posts.php:273
 msgid "by"
 msgstr " "
 
-#: bws-popular-posts.php:413
+#: bws-popular-posts.php:427
 msgid "Support"
 msgstr "Тех.Поддержка"
 
